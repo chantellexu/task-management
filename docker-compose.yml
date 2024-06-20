@@ -1,0 +1,26 @@
+version: '3.8'  # Specify the version of Docker Compose
+
+services:
+  web:
+    image: node:14  # Use an official Node.js image
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    command: "npm start"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest  # Use the latest MongoDB image
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
